@@ -19,10 +19,10 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.project = require('../model/project.model.js')(sequelize, Sequelize);
+db.company = require('../model/company.model.js')(sequelize, Sequelize);
 db.user = require('../model/user.model.js')(sequelize, Sequelize);
 
-db.project.belongsToMany(db.user, { as: 'Workers', through: 'worker_tasks', foreignKey: 'projectId', otherKey: 'userId'});
-db.user.belongsToMany(db.project, { as: 'Tasks', through: 'worker_tasks', foreignKey: 'userId', otherKey: 'projectId'});
+db.company.belongsToMany(db.user, { as: 'Workers', through: 'worker_tasks', foreignKey: 'companyId', otherKey: 'userId'});
+db.user.belongsToMany(db.company, { as: 'Tasks', through: 'worker_tasks', foreignKey: 'userId', otherKey: 'companyId'});
 
 module.exports = db;

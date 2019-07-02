@@ -1,8 +1,8 @@
 const db = require('../config/db.config.js');
-const Project = db.project;
+const Company = db.company;
 const User = db.user;
  
-// Init data: Projects & Users
+// Init data: Companies & Users
 exports.init = (req, res) => {	
 
 	User.create({
@@ -21,36 +21,36 @@ exports.init = (req, res) => {
 				return users;
 			})
 	}).then(users => {
-		Project.create({
-			code: 'P-123',
-			name: 'JSA - Branding Development'
-		}).then(p123 => {
-			p123.setWorkers(users);
+		Company.create({
+			code: 'C-123',
+			name: 'Company1'
+		}).then(c123 => {
+			c123.setWorkers(users);
 		})
 		
-		Project.create({
-			code: 'P-456',
-			name: 'JSA - DataEntry Development'
-		}).then(p456 => {
-			p456.setWorkers(users);
+		Company.create({
+			code: 'C-456',
+			name: 'Company2'
+		}).then(c456 => {
+			c456.setWorkers(users);
 		})
 	}).then(() => {
 		res.send("OK");
 	});
 };
 
-// Fetch all Projects include Users
+// Fetch all Companies include Users
 exports.findAll = (req, res) => {
-	Project.findAll({
+	Company.findAll({
 		attributes: ['code', 'name'],
 		include: [{
 			model:User, as: 'Workers',
 			attributes: [['firstname', 'name'], 'age'],
 			through: {
-				attributes: ['projectId', 'userId'],
+				attributes: ['companyId', 'userId'],
 			}
 		  }]
-	}).then(projects => {
-	   res.send(projects);
+	}).then(companies => {
+	   res.send(companies);
 	});
 };
